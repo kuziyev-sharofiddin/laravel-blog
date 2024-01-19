@@ -1,19 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Comment;
-use App\Models\Post;
+use App\Service\CommentService;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    public function store(Request  $request){
-        $comment = Comment::create([
-            'body' => $request->body,
-            'post_id' => $request->post_id,
-            "user_id" => auth()->id(),
-        ]);
+    public function __construct(protected CommentService $service){
 
+    }
+    public function store(Request  $request){
+        $this->service->create($request->all());
          return redirect()->back();
     }
 }
